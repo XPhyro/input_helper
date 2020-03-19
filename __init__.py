@@ -144,3 +144,42 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
 
     return re.findall('.' * size_x, s)
 
+
+def get_mat_bool(size_x, size_y, msg="", prompt="> ", true_reps=["True", "true", "1"], false_reps=["False", "false", "0"]):
+    if size_x <= 0 or size_y <= 0:
+        return []
+
+    size = size_x * size_y
+    m = []
+
+    if msg == "":
+        msg = f"Enter a {size_x}x{size_y} matrix."
+
+    print(msg)
+
+    was_input_valid = True
+    while len(m) != size_y:
+        if not was_input_valid:
+            # erase last line
+            print("\x1b[1A\x1b[2K", end="")
+            was_input_valid = True
+
+        r = input(prompt).split()
+
+        for i in r:
+            if i not in true_reps and i not in false_reps:
+                was_input_valid = False
+                break
+        
+        if not was_input_valid:
+            continue
+
+        for i in range(len(r)):
+            if r[i] in true_reps:
+                r[i] = True
+            else:
+                r[i] = False
+
+        m.append(r)
+
+    return m
