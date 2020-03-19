@@ -145,7 +145,7 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
     return re.findall('.' * size_x, s)
 
 
-def get_mat_bool(size_x, size_y, msg="", prompt="> ", true_reps=["True", "true", "1"], false_reps=["False", "false", "0"]):
+def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "true", "1"], allowed_falses=["False", "false", "0"]):
     if size_x <= 0 or size_y <= 0:
         return []
 
@@ -167,7 +167,7 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", true_reps=["True", "true",
         r = input(prompt).split()
 
         for i in r:
-            if i not in true_reps and i not in false_reps:
+            if i not in allowed_trues and i not in allowed_falses:
                 was_input_valid = False
                 break
         
@@ -175,10 +175,80 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", true_reps=["True", "true",
             continue
 
         for i in range(len(r)):
-            if r[i] in true_reps:
+            if r[i] in allowed_trues:
                 r[i] = True
             else:
                 r[i] = False
+
+        m.append(r)
+
+    return m
+
+def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallowed_values=[], allow_all_if_allowed_values_empty=True, allowed_range_min=float("-inf"), allowed_range_max=float("inf"), allowed_range_min_inclusive=True, allowed_range_max_inclusive=True):
+    if size_x <= 0 or size_y <= 0:
+        return []
+
+    size = size_x * size_y
+    m = []
+
+    if msg == "":
+        msg = f"Enter a {size_x}x{size_y} matrix."
+
+    print(msg)
+
+    was_input_valid = True
+    while len(m) != size_y:
+        if not was_input_valid:
+            # erase last line
+            print("\x1b[1A\x1b[2K", end="")
+            was_input_valid = True
+
+        r = input(prompt).split()
+
+        if len(r) != size_x:
+            was_input_valid = False
+            continue
+
+        for i in range(len(r)):
+            try:
+                s = int(float(r[i]))
+                r[i] = s
+            except:
+                was_input_valid = False
+                break
+
+        # if the validity of the input is not checked here, the program might crash as the rest assumes integers
+        if not was_input_valid:
+            continue
+
+        if allowed_range_min_inclusive:
+            if allowed_range_max_inclusive:
+                in_range = lambda i : allowed_range_min <= i <= allowed_range_max
+            else:
+                in_range = lambda i : allowed_range_min <= i < allowed_range_max
+        else:
+            if allowed_range_max_inclusive:
+                in_range = lambda i : allowed_range_min < i <= allowed_range_max
+            else:
+                in_range = lambda i : allowed_range_min < i < allowed_range_max
+
+        if not allow_all_if_allowed_values_empty or allowed_values != []:
+            in_range_and_allowed = lambda i : in_range(i) and i in allowed_values
+        else:
+            in_range_and_allowed = in_range
+
+        for i in r:
+            if not in_range_and_allowed(i):
+                was_input_valid = False
+                break
+
+        for i in disallowed_values:
+            if i in r:
+                was_input_valid = False
+                break
+        
+        if not was_input_valid:
+            continue
 
         m.append(r)
 
