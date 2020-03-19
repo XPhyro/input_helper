@@ -111,6 +111,9 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
     size = size_x * size_y
     s = ""
 
+    if msg == "":
+        msg = f"Enter a {size_x}x{size_y} matrix."
+
     print(msg)
 
     was_input_valid = True
@@ -128,17 +131,16 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
                     was_input_valid = False
                     break
 
-            if not was_input_valid:
-                continue
-
-        if i in r:
+        for i in r:
             if i in disallowed_chars:
                 was_input_valid = False
-                continue
+                break
 
-        if len(r) == size_x or (len(r) == size and len(s) == 0):
+        if not (len(r) == size_x or (len(r) == size and len(s) == 0)):
+            was_input_valid = False
+
+        if was_input_valid:
             s += r
-            was_input_valid = True
 
     return re.findall('.' * size_x, s)
 
