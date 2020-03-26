@@ -107,12 +107,22 @@ def get_nonpfloat(msg="Enter a non-positive real number.", end="\n> "):
 def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowed_chars="", allow_all_if_allowed_chars_empty=True):
     if size_x <= 0 or size_y <= 0:
         return []
+    if len(allowed_chars) == 0 and not allow_all_if_allowed_chars_empty:
+        return []
 
     size = size_x * size_y
     s = ""
 
     if msg == "":
-        msg = f"Enter a {size_x}x{size_y} matrix."
+        if len(allowed_chars) == 0:
+            if len(disallowed_chars) == 0:
+                msg = f"Enter a {size_x}x{size_y} matrix of strings."
+            else:
+                msg = f"Enter a {size_x}x{size_y} matrix of strings such that the strings will not contain the characters \"{disallowed_chars}\"."
+        elif len(disallowed_chars) == 0:
+            msg = f"Enter a {size_x}x{size_y} matrix of strings such that the strings will only contain the characters \"{allowed_chars}\"."
+        else:
+            msg = f"Enter a {size_x}x{size_y} matrix of strings such that the strings will only contain the characters \"{allowed_chars}\" and not contain \"{disallowed_chars}\"."
 
     print(msg)
 
@@ -153,7 +163,7 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
     m = []
 
     if msg == "":
-        msg = f"Enter a {size_x}x{size_y} matrix."
+        msg = f"Enter a {size_x}x{size_y} matrix of booleans."
 
     print(msg)
 
@@ -187,12 +197,22 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
 def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallowed_values=[], allow_all_if_allowed_values_empty=True, allowed_range_min=float("-inf"), allowed_range_max=float("inf"), allowed_range_min_inclusive=True, allowed_range_max_inclusive=True):
     if size_x <= 0 or size_y <= 0:
         return []
+    if len(allowed_values) == 0 and not allow_all_if_allowed_values_empty:
+        return []
 
     size = size_x * size_y
     m = []
 
     if msg == "":
-        msg = f"Enter a {size_x}x{size_y} matrix."
+        if len(allowed_values) != 0: 
+            if len(disallowed_values) != 0:
+                msg = f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the set {allowed_values} and not be in the set {disallowed_values} and be in the range " + ("[" if allowed_range_min_inclusive else "(") + f"{allowed_range_min}, {allowed_range_max}" + ("]" if allowed_range_max_inclusive else ")") + "."
+            else:
+                msg = f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the set {allowed_values} and be in the range " + ("[" if allowed_range_min_inclusive else "(") + f"{allowed_range_min}, {allowed_range_max}" + ("]" if allowed_range_max_inclusive else ")") + "."
+        elif len(disallowed_values) != 0:
+            msg = f"Enter a {size_x}x{size_y} matrix of integers such that the values will not be in the set {disallowed_values} and be in the range " + ("[" if allowed_range_min_inclusive else "(") + f"{allowed_range_min}, {allowed_range_max}" + ("]" if allowed_range_max_inclusive else ")") + "."
+        else:
+            msg = f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the range " + ("[" if allowed_range_min_inclusive else "(") + f"{allowed_range_min}, {allowed_range_max}" + ("]" if allowed_range_max_inclusive else ")") + "."
 
     print(msg)
 
@@ -247,6 +267,56 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
                 was_input_valid = False
                 break
         
+        if not was_input_valid:
+            continue
+
+        m.append(r)
+
+    return m
+
+
+def get_mat_digit(size_x, size_y, msg="", prompt="> ", base=10):
+    if type(base) is not int:
+        raise TypeError("Base must be an integer.")
+    if base <= 0:
+        raise ValueError("Base cannot be less than or equal to 0.")
+
+    if size_x <= 0 or size_y <= 0:
+        return []
+
+    size = size_x * size_y
+    m = []
+
+    if msg == "":
+        msg = f"Enter a {size_x}x{size_y} matrix of digits in base {base}."
+
+    print(msg)
+
+    was_input_valid = True
+    while len(m) != size_y:
+        if not was_input_valid:
+            # erase last line
+            print("\x1b[1A\x1b[2K", end="")
+            was_input_valid = True
+
+        r = input(prompt).split()
+
+        if len(r) != size_x:
+            was_input_valid = False
+            continue
+
+        for i in range(len(r)):
+            try:
+                s = int(r[i], base)
+
+                if s < 0 or s >= base:
+                    raise ValueError(f"Given input ({s}) is not a digit in the given base ({base}).")
+
+                r[i] = s
+            except:
+                was_input_valid = False
+                break
+
         if not was_input_valid:
             continue
 
