@@ -2,9 +2,28 @@
 
 
 import re
+import math
 
 
 def get_int_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low_inclusive=True, is_high_inclusive=True):
+    if msg is not str:
+        raise TypeError("msg must be a str.")
+    if end is not str:
+        raise TypeError("end must be a str.")
+    if type(low) not in [int, float]:
+        raise TypeError("low must be either an int or float.")
+    if type(high) not in [int float]:
+        raise TypeError("high must be either an int or float.")
+    if is_low_inclusive is not bool:
+        raise TypeError("is_low_inclusive must be a bool.")
+    if is_high_inclusive is not bool:
+        raise TypeError("is_high_inclusive must be a bool.")
+
+    if math.isclose(low, high):
+        return low
+    if low > high:
+        raise ValueError("high must be greater than or equal to low.")
+
     if msg == "":
         msg = "Enter an integer in range " + ("[" if is_low_inclusive else "(") + f"{low}, {high}" + ("]" if is_high_inclusive else ")") + "."
 
@@ -55,6 +74,24 @@ def get_nonpint(msg="Enter a non-positive integer.", end="\n> "):
 
 
 def get_float_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low_inclusive=True, is_high_inclusive=True):
+    if msg is not str:
+        raise TypeError("msg must be a str.")
+    if end is not str:
+        raise TypeError("end must be a str.")
+    if type(low) not in [int, float]:
+        raise TypeError("low must be either an int or float.")
+    if type(high) not in [int float]:
+        raise TypeError("high must be either an int or float.")
+    if is_low_inclusive is not bool:
+        raise TypeError("is_low_inclusive must be a bool.")
+    if is_high_inclusive is not bool:
+        raise TypeError("is_high_inclusive must be a bool.")
+
+    if math.isclose(low, high):
+        return low
+    if low > high:
+        raise ValueError("low cannot be greater than high.")
+
     if msg == "":
         msg = "Enter a real number in range " + ("[" if is_low_inclusive else "(") + f"{low}, {high}" + ("]" if is_high_inclusive else ")") + "."
 
@@ -105,9 +142,38 @@ def get_nonpfloat(msg="Enter a non-positive real number.", end="\n> "):
 
 
 def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowed_chars="", allow_all_if_allowed_chars_empty=True):
-    if size_x <= 0 or size_y <= 0:
-        return []
-    if len(allowed_chars) == 0 and not allow_all_if_allowed_chars_empty:
+    if size_x is not int:
+        raise TypeError("size_x must be an int.")
+    if size_y is not int:
+        raise TypeError("size_y must be an int.")
+    if msg is not str:
+        raise TypeError("msg must be a str.")
+    if prompt is not str:
+        raise TypeError("prompt must be a str.")
+    if type(allowed_chars) not in [str, list]:
+        raise TypeError("allowed_chars must be either a str or a list of char.")
+    if type(disallowed_chars) not in [str, list]:
+        raise TypeError("disallowed_chars must be either a str or a list of char.")
+    if allow_all_if_allowed_chars_empty is not bool:
+        raise TypeError("allow_all_if_allowed_chars_empty must be a bool.")
+    if size_x < 0:
+        raise ValueError("size_x must be greater than or equal to 0.")
+    if size_y < 0:
+        raise ValueError("size_y must be greater than or equal to 0.")
+    for i in allowed_chars:
+        if i is not str:
+            raise TypeError("Elements of allowed_chars must be a str,")
+        if len(allowed_chars) > 0 and len(i) != 1:
+            raise ValueError("Elements of allowed_chars must be of length 1.")
+    for i in disallowed_chars:
+        if i is not str:
+            raise TypeError("Elements of allowed_chars must be a str,")
+        if len(disallowed_chars) > 0 and len(i) != 1:
+            raise ValueError("Elements of allowed_chars must be of length 1.")
+    if len(allowed_chars) == 0 and !allow_all_if_allowed_chars_empty:
+        raise ValueError("len(allowed_chars) == 0 and !allow_all_if_allowed_chars_empty must be False.")
+
+    if size_x = 0 or size_y = 0:
         return []
 
     size = size_x * size_y
@@ -156,7 +222,36 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
 
 
 def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "true", "1"], allowed_falses=["False", "false", "0"]):
-    if size_x <= 0 or size_y <= 0:
+    if size_x is not int:
+        raise TypeError("size_x must be an int.")
+    if size_y is not int:
+        raise TypeError("size_y must be an int.")
+    if msg is not str:
+        raise TypeError("msg must be a str.")
+    if prompt is not str:
+        raise TypeError("prompt must be a str.")
+    if allowed_trues is not list:
+        raise TypeError("allowed_trues must be either a list of str.")
+    if allowed_falses is not list:
+        raise TypeError("allowed_falses must be either a list of str.")
+    if allow_all_if_allowed_chars_empty is not bool:
+        raise TypeError("allow_all_if_allowed_chars_empty must be a bool.")
+    for i in allowed_trues:
+        if i is not str:
+            raise TypeError("Elements of allowed_trues must be a str,")
+    for i in allowed_falses:
+        if i is not str:
+            raise TypeError("Elements of allowed_falses must be a str,")
+    if size_x < 0:
+        raise ValueError("size_x must be greater than or equal to 0.")
+    if size_y < 0:
+        raise ValueError("size_y must be greater than or equal to 0.")
+    if len(allowed_trues) == 0:
+        raise ValueError("allowed_trues must be of length 1 or greater.")
+    if len(allowed_falses) == 0:
+        raise ValueError("allowed_falses must be of length 1 or greater.")
+
+    if size_x = 0 or size_y = 0:
         return []
 
     size = size_x * size_y
@@ -195,10 +290,48 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
     return m
 
 def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallowed_values=[], allow_all_if_allowed_values_empty=True, allowed_range_min=float("-inf"), allowed_range_max=float("inf"), allowed_range_min_inclusive=True, allowed_range_max_inclusive=True):
+    if size_x is not int:
+        raise TypeError("size_x must be an int.")
+    if size_y is not int:
+        raise TypeError("size_y must be an int.")
+    if msg is not str:
+        raise TypeError("msg must be a str.")
+    if prompt is not str:
+        raise TypeError("prompt must be a str.")
+    if allowed_values is not list:
+        raise TypeError("allowed_values must be a list.")
+    if disallowed_values is not list:
+        raise TypeError("disallowed_values must be a list.")
+    if allow_all_if_allowed_values_empty is not bool:
+        raise TypeError("allow_all_if_allowed_values_empty must be a bool.")
+    if type(allowed_range_min) not in [int, float]:
+        raise TypeError("allowed_range_min must be either an int or a float.")
+    if type(allowed_range_max) not in [int, float]:
+        raise TypeError("allowe_range_max must be either an int or a float.")
+    if allowed_range_min_inclusive is not bool:
+        raise TypeError("allowed_range_min_inclusive must be a bool.")
+    if allowed_range_max_inclusive is not bool:
+        raise TypeError("allowed_range_max_inclusive must be a bool.")
+    if len(allowed_values) == 0 and !allow_all_if_allowed_values_empty:
+        raise ValueError("len(allowed_values) == 0 and !allow_all_if_allowed_values_empty must be False.") 
+    for i in allowed_values:
+        if i is not int:
+            raise ValueError("Elements of allowed_values must be an int.")
+    for i in disallowed_values:
+        if i is not int:
+            raise ValueError("Elements of disallowed_values must be an int.")
     if size_x <= 0 or size_y <= 0:
         return []
-    if len(allowed_values) == 0 and not allow_all_if_allowed_values_empty:
-        return []
+    if math.isclose(allowed_range_min, allowed_range_max):
+        m = []
+        v = []
+        for i in range(size_x):
+            v.append(allowed_range_min)
+        for i in range(size_y):
+            m.append(v)
+        return m
+    if allowed_range_min > allowed_range_max:
+        raise ValueError("allowed_range_max_inclusive must be greater than or equal to allowed_range_min_inclusive.")
 
     size = size_x * size_y
     m = []
@@ -276,13 +409,33 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
 
 
 def get_mat_digit(size_x, size_y, msg="", prompt="> ", base=10):
-    if type(base) is not int:
-        raise TypeError("Base must be an integer.")
+    if size_x is not int:
+        raise TypeError("size_x must be an int.")
+    if size_y is not int:
+        raise TypeError("size_y must be an int.")
+    if msg is not str:
+        raise TypeError("msg must be a str.")
+    if prompt is not str:
+        raise TypeError("prompt must be a str.")
+    if base is not int:
+        raise TypeError("base must be an int.")
+    if size_x < 0:
+        raise ValueError("size_x must be greater than or equal to 0.")
+    if size_y < 0:
+        raise ValueError("size_y must be greater than or equal to 0.")
     if base <= 0:
-        raise ValueError("Base cannot be less than or equal to 0.")
+        raise ValueError("base cannot be less than or equal to 0.")
 
     if size_x <= 0 or size_y <= 0:
         return []
+    if base == 1:
+        m = []
+        v = []
+        for i in range(size_x):
+            v.append(0)
+        for i in range(size_y):
+            m.append(v)
+        return m
 
     size = size_x * size_y
     m = []
