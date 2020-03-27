@@ -34,7 +34,7 @@ def get_int_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low
             s = int(s)
         except:
             continue
-        
+
         if is_low_inclusive:
             if is_high_inclusive:
                 if not low <= s <= high:
@@ -275,7 +275,7 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
             if i not in allowed_trues and i not in allowed_falses:
                 was_input_valid = False
                 break
-        
+
         if not was_input_valid:
             continue
 
@@ -288,6 +288,7 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
         m.append(r)
 
     return m
+
 
 def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallowed_values=[], allow_all_if_allowed_values_empty=True, allowed_range_min=float("-inf"), allowed_range_max=float("inf"), allowed_range_min_inclusive=True, allowed_range_max_inclusive=True):
     if size_x is not int:
@@ -399,7 +400,7 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
             if i in r:
                 was_input_valid = False
                 break
-        
+
         if not was_input_valid:
             continue
 
