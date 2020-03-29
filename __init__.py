@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Simple input helper for getting user input in built-in data types.
 
 
