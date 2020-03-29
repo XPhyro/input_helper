@@ -280,8 +280,8 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
         if not was_input_valid:
             continue
 
-        for i in range(len(r)):
-            if r[i] in allowed_trues:
+        for i, j  in enumerate(r):
+            if j in allowed_trues:
                 r[i] = True
             else:
                 r[i] = False
@@ -364,11 +364,11 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
             was_input_valid = False
             continue
 
-        for i in range(len(r)):
+        for i, j in enumerate(r):
             try:
-                s = int(float(r[i]))
+                s = int(float(j))
                 r[i] = s
-            except:
+            except ValueError:
                 was_input_valid = False
                 break
 
@@ -460,15 +460,15 @@ def get_mat_digit(size_x, size_y, msg="", prompt="> ", base=10):
             was_input_valid = False
             continue
 
-        for i in range(len(r)):
+        for i, j in enumerate(r):
             try:
-                s = int(r[i], base)
+                s = int(j, base)
 
                 if s < 0 or s >= base:
                     raise ValueError(f"Given input ({s}) is not a digit in the given base ({base}).")
 
                 r[i] = s
-            except:
+            except ValueError:
                 was_input_valid = False
                 break
 
