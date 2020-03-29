@@ -33,7 +33,7 @@ def get_int_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low
 
         try:
             s = int(s)
-        except:
+        except ValueError:
             continue
 
         if is_low_inclusive:
@@ -101,7 +101,7 @@ def get_float_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_l
 
         try:
             s = float(s)
-        except:
+        except ValueError:
             continue
 
         if is_low_inclusive:
