@@ -5,6 +5,21 @@ import re
 import math
 
 
+def inclusive_to_lambda(min_inclusive, max_inclusive):
+    if min_inclusive:
+        if max_inclusive:
+            in_range = lambda i, rng_min, rng_max : rng_min <= i <= rng_max
+        else:
+            in_range = lambda i, rng_min, rng_max : rng_min <= i < rng_max
+    else:
+        if max_inclusive:
+            in_range = lambda i, rng_min, rng_max : rng_min < i <= rng_max
+        else:
+            in_range = lambda i, rng_min, rng_max : rng_min < i < rng_max
+    
+    return in_range
+
+
 def get_int_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low_inclusive=True, is_high_inclusive=True):
     if isinstance(msg, str):
         raise TypeError("msg must be a str.")
@@ -35,20 +50,9 @@ def get_int_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low
         except ValueError:
             continue
 
-        if is_low_inclusive:
-            if is_high_inclusive:
-                if not low <= s <= high:
-                    continue
-            else:
-                if not low <= s < high:
-                    continue
-        else:
-            if is_high_inclusive:
-                if not low < s <= high:
-                    continue
-            else:
-                if not low < s < high:
-                    continue
+        in_range = inclusive_to_lambda(is_low_inclusive, is_high_inclusive)
+        if not in_range(s, low, high):
+            continue
 
         return s
 
@@ -103,20 +107,9 @@ def get_float_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_l
         except ValueError:
             continue
 
-        if is_low_inclusive:
-            if is_high_inclusive:
-                if not low <= s <= high:
-                    continue
-            else:
-                if not low <= s < high:
-                    continue
-        else:
-            if is_high_inclusive:
-                if not low < s <= high:
-                    continue
-            else:
-                if not low < s < high:
-                    continue
+        in_range = inclusive_to_lambda(is_low_inclusive, is_high_inclusive)
+        if not in_range(s, low, high):
+            continue
 
         return s
 
@@ -375,19 +368,10 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
         if not was_input_valid:
             continue
 
-        if allowed_range_min_inclusive:
-            if allowed_range_max_inclusive:
-                in_range = lambda i : allowed_range_min <= i <= allowed_range_max
-            else:
-                in_range = lambda i : allowed_range_min <= i < allowed_range_max
-        else:
-            if allowed_range_max_inclusive:
-                in_range = lambda i : allowed_range_min < i <= allowed_range_max
-            else:
-                in_range = lambda i : allowed_range_min < i < allowed_range_max
+        in_range = inclusive_to_lambda(allowed_range_min_inclusive, allowed_range_max_inclusive)
 
         if not allow_all_if_allowed_values_empty or allowed_values != []:
-            in_range_and_allowed = lambda i : in_range(i) and i in allowed_values
+            in_range_and_allowed = lambda i : in_range(i, allowed_range_min, allowed_range_max) and i in allowed_values
         else:
             in_range_and_allowed = in_range
 
