@@ -1,8 +1,8 @@
 # Simple input helper for getting user input in built-in data types.
 
 
-import re
 import math
+import re
 
 
 def inclusive_to_lambda(min_inclusive, max_inclusive):
