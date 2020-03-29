@@ -21,17 +21,17 @@ def inclusive_to_lambda(min_inclusive, max_inclusive):
 
 
 def get_int_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low_inclusive=True, is_high_inclusive=True):
-    if isinstance(msg, str):
+    if not isinstance(msg, str):
         raise TypeError("msg must be a str.")
-    if isinstance(end, str):
+    if not isinstance(end, str):
         raise TypeError("end must be a str.")
-    if isinstance(low, (int, float)):
+    if not isinstance(low, (int, float)):
         raise TypeError("low must be either an int or float.")
-    if isinstance(high, (int, float)):
+    if not isinstance(high, (int, float)):
         raise TypeError("high must be either an int or float.")
-    if isinstance(is_low_inclusive, bool):
+    if not isinstance(is_low_inclusive, bool):
         raise TypeError("is_low_inclusive must be a bool.")
-    if isinstance(is_high_inclusive, bool):
+    if not isinstance(is_high_inclusive, bool):
         raise TypeError("is_high_inclusive must be a bool.")
 
     if math.isclose(low, high):
@@ -78,17 +78,17 @@ def get_nonpint(msg="Enter a non-positive integer.", end="\n> "):
 
 
 def get_float_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low_inclusive=True, is_high_inclusive=True):
-    if isinstance(msg, str):
+    if not isinstance(msg, str):
         raise TypeError("msg must be a str.")
-    if isinstance(end, str):
+    if not isinstance(end, str):
         raise TypeError("end must be a str.")
-    if isinstance(low, (int, float)):
+    if not isinstance(low, (int, float)):
         raise TypeError("low must be either an int or float.")
-    if isinstance(low, (int, float)):
+    if not isinstance(low, (int, float)):
         raise TypeError("high must be either an int or float.")
-    if isinstance(is_low_inclusive, bool):
+    if not isinstance(is_low_inclusive, bool):
         raise TypeError("is_low_inclusive must be a bool.")
-    if isinstance(is_high_inclusive, bool):
+    if not isinstance(is_high_inclusive, bool):
         raise TypeError("is_high_inclusive must be a bool.")
 
     if math.isclose(low, high):
@@ -135,31 +135,31 @@ def get_nonpfloat(msg="Enter a non-positive real number.", end="\n> "):
 
 
 def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowed_chars="", allow_all_if_allowed_chars_empty=True):
-    if isinstance(size_x, int):
+    if not isinstance(size_x, int):
         raise TypeError("size_x must be an int.")
-    if isinstance(size_y, int):
+    if not isinstance(size_y, int):
         raise TypeError("size_y must be an int.")
-    if isinstance(msg, str):
+    if not isinstance(msg, str):
         raise TypeError("msg must be a str.")
-    if isinstance(prompt, str):
+    if not isinstance(prompt, str):
         raise TypeError("prompt must be a str.")
-    if isinstance(allowed_chars, (str, list)):
+    if not isinstance(allowed_chars, (str, list)):
         raise TypeError("allowed_chars must be either a str or a list of char.")
-    if isinstance(allowed_chars, (str, list)):
+    if not isinstance(allowed_chars, (str, list)):
         raise TypeError("disallowed_chars must be either a str or a list of char.")
-    if isinstance(allow_all_if_allowed_chars_empty, bool):
+    if not isinstance(allow_all_if_allowed_chars_empty, bool):
         raise TypeError("allow_all_if_allowed_chars_empty must be a bool.")
     if size_x < 0:
         raise ValueError("size_x must be greater than or equal to 0.")
     if size_y < 0:
         raise ValueError("size_y must be greater than or equal to 0.")
     for i in allowed_chars:
-        if isinstance(i, str):
+        if not isinstance(i, str):
             raise TypeError("Elements of allowed_chars must be a str,")
         if len(allowed_chars) > 0 and len(i) != 1:
             raise ValueError("Elements of allowed_chars must be of length 1.")
     for i in disallowed_chars:
-        if isinstance(i, str):
+        if not isinstance(i, str):
             raise TypeError("Elements of allowed_chars must be a str,")
         if len(disallowed_chars) > 0 and len(i) != 1:
             raise ValueError("Elements of allowed_chars must be of length 1.")
@@ -215,25 +215,25 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
 
 
 def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "true", "1"], allowed_falses=["False", "false", "0"]):
-    if isinstance(size_x, int):
+    if not isinstance(size_x, int):
         raise TypeError("size_x must be an int.")
-    if isinstance(size_y, int):
+    if not isinstance(size_y, int):
         raise TypeError("size_y must be an int.")
-    if isinstance(msg, str):
+    if not isinstance(msg, str):
         raise TypeError("msg must be a str.")
-    if isinstance(prompt, str):
+    if not isinstance(prompt, str):
         raise TypeError("prompt must be a str.")
-    if isinstance(allowed_trues, list):
+    if not isinstance(allowed_trues, list):
         raise TypeError("allowed_trues must be either a list of str.")
-    if isinstance(allowed_falses, list):
+    if not isinstance(allowed_falses, list):
         raise TypeError("allowed_falses must be either a list of str.")
-    if isinstance(allow_all_if_allowed_chars_empty, bool):
+    if not isinstance(allow_all_if_allowed_chars_empty, bool):
         raise TypeError("allow_all_if_allowed_chars_empty must be a bool.")
     for i in allowed_trues:
-        if isinstance(i, str):
+        if not isinstance(i, str):
             raise TypeError("Elements of allowed_trues must be a str,")
     for i in allowed_falses:
-        if isinstance(i, str):
+        if not isinstance(i, str):
             raise TypeError("Elements of allowed_falses must be a str,")
     if size_x < 0:
         raise ValueError("size_x must be greater than or equal to 0.")
@@ -284,35 +284,35 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
 
 
 def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallowed_values=[], allow_all_if_allowed_values_empty=True, allowed_range_min=float("-inf"), allowed_range_max=float("inf"), allowed_range_min_inclusive=True, allowed_range_max_inclusive=True):
-    if isinstance(size_x, int):
+    if not isinstance(size_x, int):
         raise TypeError("size_x must be an int.")
-    if isinstance(size_y, int):
+    if not isinstance(size_y, int):
         raise TypeError("size_y must be an int.")
-    if isinstance(msg, str):
+    if not isinstance(msg, str):
         raise TypeError("msg must be a str.")
-    if isinstance(prompt, str):
+    if not isinstance(prompt, str):
         raise TypeError("prompt must be a str.")
-    if isinstance(allowed_values, list):
+    if not isinstance(allowed_values, list):
         raise TypeError("allowed_values must be a list.")
-    if isinstance(disallowed_values, list):
+    if not isinstance(disallowed_values, list):
         raise TypeError("disallowed_values must be a list.")
-    if isinstance(allow_all_if_allowed_values_empty, bool):
+    if not isinstance(allow_all_if_allowed_values_empty, bool):
         raise TypeError("allow_all_if_allowed_values_empty must be a bool.")
-    if isinstance(allowed_range_min, (int, float)):
+    if not isinstance(allowed_range_min, (int, float)):
         raise TypeError("allowed_range_min must be either an int or a float.")
-    if isinstance(allowed_range_max, (int, float)):
+    if not isinstance(allowed_range_max, (int, float)):
         raise TypeError("allowe_range_max must be either an int or a float.")
-    if isinstance(allowed_range_min_inclusive, bool):
+    if not isinstance(allowed_range_min_inclusive, bool):
         raise TypeError("allowed_range_min_inclusive must be a bool.")
-    if isinstance(allowed_range_max_inclusive, bool):
+    if not isinstance(allowed_range_max_inclusive, bool):
         raise TypeError("allowed_range_max_inclusive must be a bool.")
     if len(allowed_values) == 0 and not allow_all_if_allowed_values_empty:
         raise ValueError("allowed_values cannot be empty if not allow_all_if_allowed_values_empty.")
     for i in allowed_values:
-        if isinstance(i, int):
+        if not isinstance(i, int):
             raise ValueError("Elements of allowed_values must be an int.")
     for i in disallowed_values:
-        if isinstance(i, int):
+        if not isinstance(i, int):
             raise ValueError("Elements of disallowed_values must be an int.")
     if size_x <= 0 or size_y <= 0:
         return []
@@ -394,15 +394,15 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
 
 
 def get_mat_digit(size_x, size_y, msg="", prompt="> ", base=10):
-    if isinstance(size_x, int):
+    if not isinstance(size_x, int):
         raise TypeError("size_x must be an int.")
-    if isinstance(size_y, int):
+    if not isinstance(size_y, int):
         raise TypeError("size_y must be an int.")
-    if isinstance(msg, str):
+    if not isinstance(msg, str):
         raise TypeError("msg must be a str.")
-    if isinstance(prompt, str):
+    if not isinstance(prompt, str):
         raise TypeError("prompt must be a str.")
-    if isinstance(base, int):
+    if not isinstance(base, int):
         raise TypeError("base must be an int.")
     if size_x < 0:
         raise ValueError("size_x must be greater than or equal to 0.")
