@@ -172,7 +172,7 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
         if len(disallowed_chars) > 0 and len(i) != 1:
             raise ValueError("Elements of allowed_chars must be of length 1.")
     if len(allowed_chars) == 0 and not allow_all_if_allowed_chars_empty:
-        raise ValueError("len(allowed_chars) == 0 and !allow_all_if_allowed_chars_empty must be False.")
+        raise ValueError("allowed_chars cannot be empty if not allow_all_if_allowed_chars_empty.")
 
     if size_x == 0 or size_y == 0:
         return []
@@ -315,7 +315,7 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
     if isinstance(allowed_range_max_inclusive, bool):
         raise TypeError("allowed_range_max_inclusive must be a bool.")
     if len(allowed_values) == 0 and not allow_all_if_allowed_values_empty:
-        raise ValueError("len(allowed_values) == 0 and !allow_all_if_allowed_values_empty must be False.") 
+        raise ValueError("allowed_values cannot be empty if not allow_all_if_allowed_values_empty.")
     for i in allowed_values:
         if isinstance(i, int):
             raise ValueError("Elements of allowed_values must be an int.")
