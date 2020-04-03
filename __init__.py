@@ -8,19 +8,26 @@ import re
 def inclusive_to_lambda(min_inclusive, max_inclusive):
     if min_inclusive:
         if max_inclusive:
-            in_range = lambda i, rng_min, rng_max : rng_min <= i <= rng_max
+            in_range = lambda i, rng_min, rng_max: rng_min <= i <= rng_max
         else:
-            in_range = lambda i, rng_min, rng_max : rng_min <= i < rng_max
+            in_range = lambda i, rng_min, rng_max: rng_min <= i < rng_max
     else:
         if max_inclusive:
-            in_range = lambda i, rng_min, rng_max : rng_min < i <= rng_max
+            in_range = lambda i, rng_min, rng_max: rng_min < i <= rng_max
         else:
-            in_range = lambda i, rng_min, rng_max : rng_min < i < rng_max
-    
+            in_range = lambda i, rng_min, rng_max: rng_min < i < rng_max
+
     return in_range
 
 
-def get_int_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low_inclusive=True, is_high_inclusive=True):
+def get_int_rng(
+    msg="",
+    end="\n> ",
+    low=float("-inf"),
+    high=float("inf"),
+    is_low_inclusive=True,
+    is_high_inclusive=True,
+):
     if not isinstance(msg, str):
         raise TypeError("msg must be a str.")
     if not isinstance(end, str):
@@ -40,7 +47,13 @@ def get_int_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low
         raise ValueError("high must be greater than or equal to low.")
 
     if msg == "":
-        msg = "Enter an integer in range " + ("[" if is_low_inclusive else "(") + f"{low}, {high}" + ("]" if is_high_inclusive else ")") + "."
+        msg = (
+            "Enter an integer in range "
+            + ("[" if is_low_inclusive else "(")
+            + f"{low}, {high}"
+            + ("]" if is_high_inclusive else ")")
+            + "."
+        )
 
     while True:
         s = input(msg + end)
@@ -77,7 +90,14 @@ def get_nonpint(msg="Enter a non-positive integer.", end="\n> "):
     return get_int_rng(msg=msg, end=end, high=0)
 
 
-def get_float_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_low_inclusive=True, is_high_inclusive=True):
+def get_float_rng(
+    msg="",
+    end="\n> ",
+    low=float("-inf"),
+    high=float("inf"),
+    is_low_inclusive=True,
+    is_high_inclusive=True,
+):
     if not isinstance(msg, str):
         raise TypeError("msg must be a str.")
     if not isinstance(end, str):
@@ -97,7 +117,13 @@ def get_float_rng(msg="", end="\n> ", low=float("-inf"), high=float("inf"), is_l
         raise ValueError("low cannot be greater than high.")
 
     if msg == "":
-        msg = "Enter a real number in range " + ("[" if is_low_inclusive else "(") + f"{low}, {high}" + ("]" if is_high_inclusive else ")") + "."
+        msg = (
+            "Enter a real number in range "
+            + ("[" if is_low_inclusive else "(")
+            + f"{low}, {high}"
+            + ("]" if is_high_inclusive else ")")
+            + "."
+        )
 
     while True:
         s = input(msg + end)
@@ -134,7 +160,15 @@ def get_nonpfloat(msg="Enter a non-positive real number.", end="\n> "):
     return get_float_rng(msg=msg, end=end, high=0)
 
 
-def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowed_chars="", allow_all_if_allowed_chars_empty=True):
+def get_mat_str(
+    size_x,
+    size_y,
+    msg="",
+    prompt="> ",
+    allowed_chars="",
+    disallowed_chars="",
+    allow_all_if_allowed_chars_empty=True,
+):
     if not isinstance(size_x, int):
         raise TypeError("size_x must be an int.")
     if not isinstance(size_y, int):
@@ -164,7 +198,9 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
         if len(disallowed_chars) > 0 and len(i) != 1:
             raise ValueError("Elements of allowed_chars must be of length 1.")
     if len(allowed_chars) == 0 and not allow_all_if_allowed_chars_empty:
-        raise ValueError("allowed_chars cannot be empty if not allow_all_if_allowed_chars_empty.")
+        raise ValueError(
+            "allowed_chars cannot be empty if not allow_all_if_allowed_chars_empty."
+        )
 
     if size_x == 0 or size_y == 0:
         return []
@@ -177,11 +213,11 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
             if len(disallowed_chars) == 0:
                 msg = f"Enter a {size_x}x{size_y} matrix of strings."
             else:
-                msg = f"Enter a {size_x}x{size_y} matrix of strings such that the strings will not contain the characters \"{disallowed_chars}\"."
+                msg = f'Enter a {size_x}x{size_y} matrix of strings such that the strings will not contain the characters "{disallowed_chars}".'
         elif len(disallowed_chars) == 0:
-            msg = f"Enter a {size_x}x{size_y} matrix of strings such that the strings will only contain the characters \"{allowed_chars}\"."
+            msg = f'Enter a {size_x}x{size_y} matrix of strings such that the strings will only contain the characters "{allowed_chars}".'
         else:
-            msg = f"Enter a {size_x}x{size_y} matrix of strings such that the strings will only contain the characters \"{allowed_chars}\" and not contain \"{disallowed_chars}\"."
+            msg = f'Enter a {size_x}x{size_y} matrix of strings such that the strings will only contain the characters "{allowed_chars}" and not contain "{disallowed_chars}".'
 
     print(msg)
 
@@ -211,10 +247,17 @@ def get_mat_str(size_x, size_y, msg="", prompt="> ", allowed_chars="", disallowe
         if was_input_valid:
             s += r
 
-    return re.findall('.' * size_x, s)
+    return re.findall("." * size_x, s)
 
 
-def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "true", "1"], allowed_falses=["False", "false", "0"]):
+def get_mat_bool(
+    size_x,
+    size_y,
+    msg="",
+    prompt="> ",
+    allowed_trues=["True", "true", "1"],
+    allowed_falses=["False", "false", "0"],
+):
     if not isinstance(size_x, int):
         raise TypeError("size_x must be an int.")
     if not isinstance(size_y, int):
@@ -272,7 +315,7 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
         if not was_input_valid:
             continue
 
-        for i, j  in enumerate(r):
+        for i, j in enumerate(r):
             if j in allowed_trues:
                 r[i] = True
             else:
@@ -283,7 +326,19 @@ def get_mat_bool(size_x, size_y, msg="", prompt="> ", allowed_trues=["True", "tr
     return m
 
 
-def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallowed_values=[], allow_all_if_allowed_values_empty=True, allowed_range_min=float("-inf"), allowed_range_max=float("inf"), allowed_range_min_inclusive=True, allowed_range_max_inclusive=True):
+def get_mat_int(
+    size_x,
+    size_y,
+    msg="",
+    prompt="> ",
+    allowed_values=[],
+    disallowed_values=[],
+    allow_all_if_allowed_values_empty=True,
+    allowed_range_min=float("-inf"),
+    allowed_range_max=float("inf"),
+    allowed_range_min_inclusive=True,
+    allowed_range_max_inclusive=True,
+):
     if not isinstance(size_x, int):
         raise TypeError("size_x must be an int.")
     if not isinstance(size_y, int):
@@ -307,7 +362,9 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
     if not isinstance(allowed_range_max_inclusive, bool):
         raise TypeError("allowed_range_max_inclusive must be a bool.")
     if len(allowed_values) == 0 and not allow_all_if_allowed_values_empty:
-        raise ValueError("allowed_values cannot be empty if not allow_all_if_allowed_values_empty.")
+        raise ValueError(
+            "allowed_values cannot be empty if not allow_all_if_allowed_values_empty."
+        )
     for i in allowed_values:
         if not isinstance(i, int):
             raise ValueError("Elements of allowed_values must be an int.")
@@ -325,21 +382,47 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
             m.append(v)
         return m
     if allowed_range_min > allowed_range_max:
-        raise ValueError("allowed_range_max_inclusive must be greater than or equal to allowed_range_min_inclusive.")
+        raise ValueError(
+            "allowed_range_max_inclusive must be greater than or equal to allowed_range_min_inclusive."
+        )
 
     size = size_x * size_y
     m = []
 
     if msg == "":
-        if len(allowed_values) != 0: 
+        if len(allowed_values) != 0:
             if len(disallowed_values) != 0:
-                msg = f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the set {allowed_values} and not be in the set {disallowed_values} and be in the range " + ("[" if allowed_range_min_inclusive else "(") + f"{allowed_range_min}, {allowed_range_max}" + ("]" if allowed_range_max_inclusive else ")") + "."
+                msg = (
+                    f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the set {allowed_values} and not be in the set {disallowed_values} and be in the range "
+                    + ("[" if allowed_range_min_inclusive else "(")
+                    + f"{allowed_range_min}, {allowed_range_max}"
+                    + ("]" if allowed_range_max_inclusive else ")")
+                    + "."
+                )
             else:
-                msg = f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the set {allowed_values} and be in the range " + ("[" if allowed_range_min_inclusive else "(") + f"{allowed_range_min}, {allowed_range_max}" + ("]" if allowed_range_max_inclusive else ")") + "."
+                msg = (
+                    f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the set {allowed_values} and be in the range "
+                    + ("[" if allowed_range_min_inclusive else "(")
+                    + f"{allowed_range_min}, {allowed_range_max}"
+                    + ("]" if allowed_range_max_inclusive else ")")
+                    + "."
+                )
         elif len(disallowed_values) != 0:
-            msg = f"Enter a {size_x}x{size_y} matrix of integers such that the values will not be in the set {disallowed_values} and be in the range " + ("[" if allowed_range_min_inclusive else "(") + f"{allowed_range_min}, {allowed_range_max}" + ("]" if allowed_range_max_inclusive else ")") + "."
+            msg = (
+                f"Enter a {size_x}x{size_y} matrix of integers such that the values will not be in the set {disallowed_values} and be in the range "
+                + ("[" if allowed_range_min_inclusive else "(")
+                + f"{allowed_range_min}, {allowed_range_max}"
+                + ("]" if allowed_range_max_inclusive else ")")
+                + "."
+            )
         else:
-            msg = f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the range " + ("[" if allowed_range_min_inclusive else "(") + f"{allowed_range_min}, {allowed_range_max}" + ("]" if allowed_range_max_inclusive else ")") + "."
+            msg = (
+                f"Enter a {size_x}x{size_y} matrix of integers such that the values will be in the range "
+                + ("[" if allowed_range_min_inclusive else "(")
+                + f"{allowed_range_min}, {allowed_range_max}"
+                + ("]" if allowed_range_max_inclusive else ")")
+                + "."
+            )
 
     print(msg)
 
@@ -368,10 +451,15 @@ def get_mat_int(size_x, size_y, msg="", prompt="> ", allowed_values=[], disallow
         if not was_input_valid:
             continue
 
-        in_range = inclusive_to_lambda(allowed_range_min_inclusive, allowed_range_max_inclusive)
+        in_range = inclusive_to_lambda(
+            allowed_range_min_inclusive, allowed_range_max_inclusive
+        )
 
         if not allow_all_if_allowed_values_empty or allowed_values != []:
-            in_range_and_allowed = lambda i : in_range(i, allowed_range_min, allowed_range_max) and i in allowed_values
+            in_range_and_allowed = (
+                lambda i: in_range(i, allowed_range_min, allowed_range_max)
+                and i in allowed_values
+            )
         else:
             in_range_and_allowed = in_range
 
@@ -448,7 +536,9 @@ def get_mat_digit(size_x, size_y, msg="", prompt="> ", base=10):
                 s = int(j, base)
 
                 if s < 0 or s >= base:
-                    raise ValueError(f"Given input ({s}) is not a digit in the given base ({base}).")
+                    raise ValueError(
+                        f"Given input ({s}) is not a digit in the given base ({base})."
+                    )
 
                 r[i] = s
             except ValueError:
