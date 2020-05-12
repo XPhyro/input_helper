@@ -21,7 +21,7 @@ def inclusive_to_lambda(min_inclusive, max_inclusive):
 
 
 def get_int_rng(
-    msg="",
+    msg="Enter an integer.",
     end="\n> ",
     low=float("-inf"),
     high=float("inf"),
@@ -88,6 +88,14 @@ def get_nint(msg="Enter a negative integer.", end="\n> "):
 
 def get_nonpint(msg="Enter a non-positive integer.", end="\n> "):
     return get_int_rng(msg=msg, end=end, high=0)
+
+
+def get_int_lambda(msg="Enter an integer.", end="\n> ", lm=lambda x: True):
+    i = get_int(msg, end)
+    while not lm(i):
+        i = get_int(msg, end)
+
+    return i
 
 
 def get_float_rng(
