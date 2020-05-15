@@ -168,7 +168,7 @@ def get_nonpfloat(msg="Enter a non-positive real number.", end="\n> "):
     return get_float_rng(msg=msg, end=end, high=0)
 
 
-def get_float_lambda(msg="Enter an integer.", end="\n> ", lm=lambda x: True):
+def get_float_lambda(msg="Enter a real number.", end="\n> ", lm=lambda x: True):
     i = get_float(msg, end)
     while not lm(i):
         i = get_float(msg, end)
