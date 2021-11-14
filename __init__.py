@@ -23,8 +23,8 @@ def inclusive_to_lambda(min_inclusive, max_inclusive):
 def get_int_rng(
     msg="Enter an integer.",
     end="\n> ",
-    low=float("-inf"),
-    high=float("inf"),
+    low=-math.inf,
+    high=math.inf,
     is_low_inclusive=True,
     is_high_inclusive=True,
 ):
@@ -101,8 +101,8 @@ def get_int_lambda(msg="Enter an integer.", end="\n> ", lm=lambda x: True):
 def get_float_rng(
     msg="",
     end="\n> ",
-    low=float("-inf"),
-    high=float("inf"),
+    low=-math.inf,
+    high=math.inf,
     is_low_inclusive=True,
     is_high_inclusive=True,
 ):
@@ -350,8 +350,8 @@ def get_mat_int(
     allowed_values=[],
     disallowed_values=[],
     allow_all_if_allowed_values_empty=True,
-    allowed_range_min=float("-inf"),
-    allowed_range_max=float("inf"),
+    allowed_range_min=-math.inf,
+    allowed_range_max=math.inf,
     allowed_range_min_inclusive=True,
     allowed_range_max_inclusive=True,
 ):
